@@ -28,7 +28,7 @@ if __name__ == '__main__' and __package__ is None:
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from hammer.config import RPCaddress 
-from hammer.config import FILE_PASSPHRASE, PARITY_UNLOCK_EACH_TRANSACTION, PARITY_ALREADY_UNLOCKED
+from hammer.config import FILE_PASSPHRASE, PARITY_UNLOCK_EACH_TRANSACTION, PARITY_ALREADY_UNLOCKED, PRIVATE_KEY_ADDRESS
 from hammer.clienttype import clientType
 
 ################
@@ -68,7 +68,7 @@ def start_web3connection(RPCaddress=None, account=None):
     print ("node version string = ", w3.version.node)
     accountname="chosen"
     if not account:
-        w3.eth.defaultAccount = w3.eth.accounts[0] # set first account as sender
+        w3.eth.defaultAccount = PRIVATE_KEY_ADDRESS # set first account as sender
         accountname="first"
     print (accountname + " account of node is", w3.eth.defaultAccount, end=", ")
     print ("balance is %s Ether" % w3.fromWei(w3.eth.getBalance(w3.eth.defaultAccount), "ether"))
@@ -158,40 +158,41 @@ def unlockAccount(duration=3600, account=None):
     """
     unlock once, then leave open, to later not loose time for unlocking
     """
+    return True
     
-    if ("TestRPC" in w3.version.node) or (PARITY_ALREADY_UNLOCKED and ("Parity" in w3.version.node)):
-        return True # TestRPC does not need unlocking; or parity can be CLI-switch unlocked when starting
+    # if ("TestRPC" in w3.version.node) or (PARITY_ALREADY_UNLOCKED and ("Parity" in w3.version.node)):
+    #     return True # TestRPC does not need unlocking; or parity can be CLI-switch unlocked when starting
     
-    if NODENAME=="Quorum":
-        if NETWORKID==1337:
-            passphrase="1234" # Azure Quorum testnet 1337 jtessera
-        else:
-            passphrase="" # Any other Quorum
-    else:
-        # print ("os.getcwd():", os.getcwd())
-        with open(correctPath(FILE_PASSPHRASE), "r") as f:
-            passphrase=f.read().strip()
+    # if NODENAME=="Quorum":
+    #     if NETWORKID==1337:
+    #         passphrase="1234" # Azure Quorum testnet 1337 jtessera
+    #     else:
+    #         passphrase="" # Any other Quorum
+    # else:
+    #     # print ("os.getcwd():", os.getcwd())
+    #     with open(correctPath(FILE_PASSPHRASE), "r") as f:
+    #         passphrase=f.read().strip()
 
-    if NODENAME=="Geth" and CONSENSUS=="clique" and NETWORKID==500:
-        passphrase="pass" # hardcoded in geth-dev/docker-compose.yml
+    # if NODENAME=="Geth" and CONSENSUS=="clique" and NETWORKID==500:
+    #     passphrase="pass" # hardcoded in geth-dev/docker-compose.yml
 
-    # print ("passphrase:", passphrase)
+    # # print ("passphrase:", passphrase)
 
-    if not account:
-        account = w3.eth.defaultAccount
-        # print (account)
+    # if not account:
+    #     account = w3.eth.defaultAccount
+    #     # print (account)
 
-    if PARITY_UNLOCK_EACH_TRANSACTION:
-        answer = w3.personal.unlockAccount(account=account, 
-                                           passphrase=passphrase)
-    else:
-        if NODETYPE=="Parity": 
-            duration = w3.toHex(duration)
-        answer = w3.personal.unlockAccount(account=account, 
-                                           passphrase=passphrase,
-                                           duration=duration)
-    print ("unlocked:", answer)
-    return answer
+    # if PARITY_UNLOCK_EACH_TRANSACTION:
+    #     answer = w3.personal.unlockAccount(account=account, 
+    #                                        passphrase=passphrase)
+    # else:
+    #     if NODETYPE=="Parity": 
+    #         duration = w3.toHex(duration)
+    #     answer = w3.personal.unlockAccount(account=account, 
+    #                                        passphrase=passphrase,
+    #                                        duration=duration)
+    # print ("unlocked:", answer)
+    # return answer
      
 
 

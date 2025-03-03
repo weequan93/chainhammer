@@ -16,6 +16,7 @@
 import sys, time, json
 from pprint import pprint
 
+
 import requests # pip3 install requests
 
 try:
@@ -34,7 +35,7 @@ if __name__ == '__main__' and __package__ is None:
 from hammer.config import RPCaddress, TIMEOUT_DEPLOY, PARITY_UNLOCK_EACH_TRANSACTION
 from hammer.config import FILE_CONTRACT_SOURCE, FILE_CONTRACT_ABI, FILE_CONTRACT_ADDRESS
 from hammer.config import GAS_FOR_SET_CALL
-
+from hammer.config import PRIVATE_KEY, PRIVATE_KEY_ADDRESS
 from hammer.clienttools import web3connection, unlockAccount
 
 
@@ -64,10 +65,21 @@ def deployContract(contract_interface, ifPrint=True, timeout=TIMEOUT_DEPLOY):
     deploys contract, waits for receipt, returns address
     """
     before=time.time()
-    myContract = w3.eth.contract(abi=contract_interface['abi'], 
-                                 bytecode=contract_interface['bin'])
 
-    tx_hash = w3.toHex( myContract.constructor().transact() )
+
+    myContract = w3.eth.contract(abi=contract_interface['abi'], bytecode=contract_interface['bin'])
+
+    transaction = {
+        'from':   PRIVATE_KEY_ADDRESS,
+        'nonce': w3.eth.getTransactionCount(PRIVATE_KEY_ADDRESS),
+        'gasPrice': 20000000000
+    }
+
+    construct_txn = myContract.constructor().buildTransaction(transaction)
+    signed_txn = w3.eth.account.signTransaction(construct_txn,PRIVATE_KEY)
+
+    tx_hash = w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+
     print ("tx_hash = ", tx_hash, "--> waiting for receipt (timeout=%d) ..." % timeout)
     sys.stdout.flush()
     tx_receipt = w3.eth.waitForTransactionReceipt(tx_hash, timeout=timeout)

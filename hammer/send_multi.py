@@ -33,9 +33,10 @@ from web3.utils.encoding import pad_hex
 from hammer.config import RPCaddress, ROUTE, PRIVATE_FOR, EXAMPLE_ABI
 from hammer.config import PARITY_UNLOCK_EACH_TRANSACTION
 from hammer.config import GAS_FOR_SET_CALL
-from hammer.config import FILE_LAST_EXPERIMENT, EMPTY_BLOCKS_AT_END, PRIVATE_KEY_ADDRESS
+from hammer.config import FILE_LAST_EXPERIMENT, EMPTY_BLOCKS_AT_END,KEY_PER_WORKER
 from hammer.deploy import loadFromDisk
 from hammer.clienttools import web3connection, unlockAccount
+from hammer.ppk import ADDRESS_LIST
 
 
 ##########################
@@ -137,7 +138,7 @@ def timeit_argument_encoding():
     print ("Doing that %d times ... took %.2f seconds" % (reps, timer) )
 
 
-def contract_set_via_RPC(contract, arg, hashes = None, privateFor=PRIVATE_FOR, gas=GAS_FOR_SET_CALL):
+def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = "", address = ""):
     """
     call the .set(arg) method numTx=10
     not going through web3
@@ -146,22 +147,23 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateFor=PRIVATE_FOR, g
     suggestion by @jpmsam 
     https://github.com/jpmorganchase/quorum/issues/346#issuecomment-382216968
     """
-
+    
     method_ID = contract_method_ID("set", contract.abi) # TODO: make this "set" flexible for any method name
     data = argument_encoding(method_ID, arg)
-    global NOUNCE
-    nounce =  NOUNCE
-    NOUNCE = NOUNCE+1
-    txParameters = {'from': w3.eth.defaultAccount, 
+
+    global NOUNCES
+    nounce = NOUNCES[privateIndex]
+    NOUNCES[privateIndex] = NOUNCES[privateIndex] + 1
+    
+
+    txParameters = {'from': w3.toChecksumAddress(address), 
                     'to' : contract.address,
                     'nonce': nounce,
                     'gasPrice': 20000000000,
-                    'gas' : w3.toHex(gas),
+                    'gas' : w3.toHex(GAS_FOR_SET_CALL),
                     'data' : data} 
-    if privateFor:
-        txParameters['privateFor'] = privateFor  # untested
     
-    signed_txn = w3.eth.account.signTransaction(txParameters, PRIVATE_KEY)
+    signed_txn = w3.eth.account.signTransaction(txParameters, ppk)
 
     method = 'eth_sendRawTransaction'
     payload= {"jsonrpc" : "2.0",
@@ -172,7 +174,20 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateFor=PRIVATE_FOR, g
     headers = {'Content-type' : 'application/json'}
     response = requests.post(RPCaddress, json=payload, headers=headers)
 
-    tx = response.json()['result']
+    tx  = None
+
+    print (".", end=" ") # TODO: not print this here but at start
+    try:
+        tx = response.json()['result']
+
+        if not hashes==None:
+            hashes.append(tx)
+        return tx
+    except:
+        NOUNCES[privateIndex] =  w3.eth.getTransactionCount( w3.toChecksumAddress( w3.toChecksumAddress(address), ))
+        return tx
+
+
         
     # print ("[sent directly via RPC]", end=" ") # TODO: not print this here but at start
     print (".", end=" ") # TODO: not print this here but at start
@@ -268,11 +283,17 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
 
     q = Queue()
     txs = [] # container to keep all transaction hashes
+
+    global KEYADDRESS
+    global KEYPRIVATE
     
     def worker():
         while True:
             item = q.get()
-            contract_set(contract, item, txs)
+         
+            privateIndex = item  % KEY_PER_WORKER
+         
+            contract_set(contract, item, txs, privateIndex,KEYPRIVATE[privateIndex],KEYADDRESS[privateIndex] )
             print ("T", end=""); sys.stdout.flush()
             q.task_done()
 
@@ -553,10 +574,11 @@ def store_experiment_data(success, num_txs,
                 "chain_id" : CHAINID
                 }
             }
-            
-    with open(filename, "w") as f:
-        json.dump(data, f)
-    
+
+    if(int(sys.argv[4]) == 0):
+        with open(filename, "w") as f:
+            print(int(sys.argv[4]) == 0, int(sys.argv[4]))
+            json.dump(data, f)
 
 def wait_some_blocks(waitBlocks=EMPTY_BLOCKS_AT_END, pauseBetweenQueries=0.3):
     """
@@ -614,7 +636,7 @@ def check_CLI_or_syntax_info_and_exit():
     
     #print ("len(sys.argv)=", len(sys.argv))
     
-    if not (2 <= len(sys.argv) <= 4):
+    if not (2 <= len(sys.argv) <= 5):
         print ("Needs parameters:")
         print ("%s numTransactions algorithm [workers]" % sys.argv[0])
         print ("at least numTransactions, e.g.")
@@ -636,6 +658,26 @@ def sendmany(contract):
     if ROUTE=="RPC": route = "RPC directly" 
     if ROUTE=="web3": route = "web3 library" 
     print ("You want me to send %d transactions, via route: %s." % (numTransactions, route))
+
+
+
+    num_core = int(sys.argv[4])
+    address = ADDRESS_LIST[num_core*KEY_PER_WORKER*2: num_core*KEY_PER_WORKER*2+KEY_PER_WORKER*2]
+
+    global NOUNCES
+    NOUNCES = [None] * KEY_PER_WORKER
+    global KEYADDRESS 
+    KEYADDRESS= [None] * KEY_PER_WORKER
+    global KEYPRIVATE
+    KEYPRIVATE= [None] * KEY_PER_WORKER
+
+    for i in range(KEY_PER_WORKER):
+        checkSumAddress =  w3.toChecksumAddress(address[i*2])
+
+        KEYADDRESS[i] = checkSumAddress
+        KEYPRIVATE[i] = address[i*2+1]
+        NOUNCES[i] = w3.eth.getTransactionCount(checkSumAddress)
+    
     
     # choose algorithm depending on 2nd CLI argument:
     
@@ -650,7 +692,7 @@ def sendmany(contract):
             
     elif sys.argv[2]=="threaded2":
         num_workers = 100
-        if len(sys.argv)==4:
+        if len(sys.argv)==5:
             try:
                 num_workers = int(sys.argv[3])
             except:
@@ -676,11 +718,16 @@ def sendmany(contract):
     return txs
 
 
+def retriveaccount():
+    with open(FILE_PASSPHRASE, "r") as f:
+        account = f.read().strip()
+    return account
+
 if __name__ == '__main__':
     
     check_CLI_or_syntax_info_and_exit()
 
-    global w3, NODENAME, NODETYPE, NODEVERSION, CONSENSUS, NETWORKID, CHAINNAME, CHAINID, NOUNCE
+    global w3, NODENAME, NODETYPE, NODEVERSION, CONSENSUS, NETWORKID, CHAINNAME, CHAINID, NOUNCE, NOUNCES, SIZE
     w3, chainInfos = web3connection(RPCaddress=RPCaddress, account=None)
     NODENAME, NODETYPE, NODEVERSION, CONSENSUS, NETWORKID, CHAINNAME, CHAINID = chainInfos
     
@@ -689,11 +736,7 @@ if __name__ == '__main__':
     # try_contract_set_via_web3(contract); exit()
     # try_contract_set_via_RPC(contract);  exit()
 
-    w3.eth.defaultAccount = PRIVATE_KEY_ADDRESS # set first account as sender
     contract = initialize_fromAddress()
-
-    NOUNCE = w3.eth.getTransactionCount(PRIVATE_KEY_ADDRESS)
-    print("NOUNCE=", NOUNCE)
 
     txs = sendmany(contract)
     sys.stdout.flush() # so that the log files are updated.

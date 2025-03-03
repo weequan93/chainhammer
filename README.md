@@ -259,3 +259,29 @@ and the [detailed log of what I've tried already](results/parity.md),
 and the 2 shortest routes to reproducing the results: [reproduce.md](docs/reproduce.md).    
 
 Thanks.
+
+
+## 
+
+./tps.py &
+./deploy.py &
+./send_multi.py 5000 threaded2 50  0 > "../logs/send_multi.py.log" &
+./send_multi.py 5000 threaded2 50  1 > "../logs/send_multi.py.1.log" &
+./send_multi.py 5000 threaded2 50  2 > "../logs/send_multi.py.2.log" &
+./send_multi.py 5000 threaded2 50  3 > "../logs/send_multi.py.3.log" &
+./send_multi.py 5000 threaded2 50  4 > "../logs/send_multi.py.4.log" &
+./send_multi.py 5000 threaded2 50  5 > "../logs/send_multi.py.5.log" &
+./send_multi.py 5000 threaded2 50  6 > "../logs/send_multi.py.6.log" &
+./send_multi.py 5000 threaded2 50  7 > "../logs/send_multi.py.7.log" &
+./send_multi.py 5000 threaded2 50  8 > "../logs/send_multi.py.8.log" &
+./send_multi.py 5000 threaded2 50  9 > "../logs/send_multi.py.9.log" &
+./send_multi.py 5000 threaded2 50  10 > "../logs/send_multi.py.10.log" &
+./send_multi.py 5000 threaded2 50  11 > "../logs/send_multi.py.11.log" &
+./send_multi.py 5000 threaded2 50  12 > "../logs/send_multi.py.12.log" &
+./send_multi.py 5000 threaded2 50  13 > "../logs/send_multi.py.13.log" &
+./send_multi.py 5000 threaded2 50  14 > "../logs/send_multi.py.14.log" &
+./send_multi.py 5000 threaded2 50  15 > "../logs/send_multi.py.15.log" &
+./send_multi.py 5000 threaded2 50  16 > "../logs/send_multi.py.16.log" &
+./send_multi.py 5000 threaded2 50  17 > "../logs/send_multi.py.17.log" &
+./send_multi.py 5000 threaded2 50  18 > "../logs/send_multi.py.18.log" &
+./send_multi.py 5000 threaded2 50  19 > "../logs/send_multi.py.19.log" &
