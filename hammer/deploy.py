@@ -15,7 +15,7 @@
 
 import sys, time, json
 from pprint import pprint
-
+from web3.utils.encoding import pad_hex
 
 import requests # pip3 install requests
 
@@ -89,6 +89,34 @@ def deployContract(contract_interface, ifPrint=True, timeout=TIMEOUT_DEPLOY):
     if ifPrint:
         line = "Deployed. gasUsed={gasUsed} contractAddress={contractAddress}"
         print ( line.format(**tx_receipt) )
+
+    # add gasless deriw
+    method_ID = "0x08755606"
+    # arg_hex = w3.toHex(contractAddress.encode('utf-8'))
+    # arg_hex_padded = pad_hex ( arg_hex, bit_size=256)
+    data = method_ID +"000000000000000000000000"+ contractAddress [2:]
+
+    txParameters = {'from': PRIVATE_KEY_ADDRESS, 
+                    'to' : w3.toChecksumAddress("0x00000000000000000000000000000000000007E8"),
+                    'nonce': w3.eth.getTransactionCount(PRIVATE_KEY_ADDRESS),
+                    'gasPrice': 20000000000,
+                    'gas' : w3.toHex(GAS_FOR_SET_CALL),
+                    'data' : data} 
+    
+    signed_txn = w3.eth.account.signTransaction(txParameters, PRIVATE_KEY)
+
+    method = 'eth_sendRawTransaction'
+    payload= {"jsonrpc" : "2.0",
+               "method" : method,
+               "params" : [signed_txn.rawTransaction.hex()],
+               "id"     : 1}
+
+    headers = {'Content-type' : 'application/json'}
+    response = requests.post(RPCaddress, json=payload, headers=headers)
+
+    print(response.json()['result'])
+
+
     return contractAddress 
 
     
