@@ -161,7 +161,8 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
                     'nonce': nounce,
                     'gasPrice': 100000000,
                     # 'gas' : 50000000,
-                    'gas' : 3500000,
+                    # 'gas' : 3500000,
+                    'gas' : 2200000,
                     # 'gas' : 30000,
                     'data' : data} 
     
