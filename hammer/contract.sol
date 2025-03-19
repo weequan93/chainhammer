@@ -14,7 +14,7 @@ contract simplestorage {
     // a=1500 gas=1,000,000
     // a=3300  gas=2,000,000
     // a =5000, gas=3,000,000
-    uint256 public a = 1500;
+    uint256 public a = 5000;
 
     function set() external {
         // try failing transactions:
