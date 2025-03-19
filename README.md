@@ -110,7 +110,7 @@ cd CH
 you now only need these **two lines** *to prepare and run the 1st experiment!*
 ```
 scripts/install.sh
-CH_TXS=1000 CH_THREADING="sequential" ./run.sh $HOSTNAME-TestRPC testrpc
+CH_TXS= 5000  CH_THREADING="sequential" ./run.sh $HOSTNAME-TestRPC testrpc
 ```
 You will then have a diagram, and a HTML and MD page about this run!
 
@@ -226,7 +226,7 @@ reader/img/geth-clique-50kTx_t2xlarge_tps-bt-bs-gas_blks12-98.png
 ### quorum raft
 OLD RUN on a desktop machine.  
 
-[quorum.md](results/quorum.md) = Quorum (geth fork), raft consensus, 1000 transactions multi-threaded with 23 workers, average TPS around 160 TPS, and 20 raft blocks per second)
+[quorum.md](results/quorum.md) = Quorum (geth fork), raft consensus,  5000  transactions multi-threaded with 23 workers, average TPS around 160 TPS, and 20 raft blocks per second)
 ![reader/img/quorum_tps-bt-bs-gas_blks242-357.png](reader/img/quorum_tps-bt-bs-gas_blks242-357.png)
 
 
@@ -265,23 +265,71 @@ Thanks.
 
 ./tps.py &
 ./deploy.py &
-./send_multi.py 5000 threaded2 50  0 > "../logs/send_multi.py.log" &
-./send_multi.py 5000 threaded2 50  1 > "../logs/send_multi.py.1.log" &
-./send_multi.py 5000 threaded2 50  2 > "../logs/send_multi.py.2.log" &
-./send_multi.py 5000 threaded2 50  3 > "../logs/send_multi.py.3.log" &
-./send_multi.py 5000 threaded2 50  4 > "../logs/send_multi.py.4.log" &
-./send_multi.py 5000 threaded2 50  5 > "../logs/send_multi.py.5.log" &
-./send_multi.py 5000 threaded2 50  6 > "../logs/send_multi.py.6.log" &
-./send_multi.py 5000 threaded2 50  7 > "../logs/send_multi.py.7.log" &
-./send_multi.py 5000 threaded2 50  8 > "../logs/send_multi.py.8.log" &
-./send_multi.py 5000 threaded2 50  9 > "../logs/send_multi.py.9.log" &
-./send_multi.py 5000 threaded2 50  10 > "../logs/send_multi.py.10.log" &
-./send_multi.py 5000 threaded2 50  11 > "../logs/send_multi.py.11.log" &
-./send_multi.py 5000 threaded2 50  12 > "../logs/send_multi.py.12.log" &
-./send_multi.py 5000 threaded2 50  13 > "../logs/send_multi.py.13.log" &
-./send_multi.py 5000 threaded2 50  14 > "../logs/send_multi.py.14.log" &
-./send_multi.py 5000 threaded2 50  15 > "../logs/send_multi.py.15.log" &
-./send_multi.py 5000 threaded2 50  16 > "../logs/send_multi.py.16.log" &
-./send_multi.py 5000 threaded2 50  17 > "../logs/send_multi.py.17.log" &
-./send_multi.py 5000 threaded2 50  18 > "../logs/send_multi.py.18.log" &
-./send_multi.py 5000 threaded2 50  19 > "../logs/send_multi.py.19.log" &
+./send_multi.py  5000  threaded2 50 0 > "../logs/send_multi.py.log" &
+./send_multi.py  5000  threaded2 50  1 > "../logs/send_multi.py.1.log" &
+./send_multi.py  5000  threaded2 50  2 > "../logs/send_multi.py.2.log" &
+./send_multi.py  5000  threaded2 50  3 > "../logs/send_multi.py.3.log" &
+./send_multi.py  5000  threaded2 50  4 > "../logs/send_multi.py.4.log" &
+./send_multi.py  5000  threaded2 50  5 > "../logs/send_multi.py.5.log" &
+./send_multi.py  5000  threaded2 50  6 > "../logs/send_multi.py.6.log" &
+./send_multi.py  5000  threaded2 50  7 > "../logs/send_multi.py.7.log" &
+./send_multi.py  5000  threaded2 50  8 > "../logs/send_multi.py.8.log" &
+./send_multi.py  5000  threaded2 50  9 > "../logs/send_multi.py.9.log" &
+./send_multi.py  5000  threaded2 50  10 > "../logs/send_multi.py.10.log" &
+./send_multi.py  5000  threaded2 50  11 > "../logs/send_multi.py.11.log" &
+./send_multi.py  5000  threaded2 50  12 > "../logs/send_multi.py.12.log" &
+./send_multi.py  5000  threaded2 50  13 > "../logs/send_multi.py.13.log" &
+./send_multi.py  5000  threaded2 50  14 > "../logs/send_multi.py.14.log" &
+./send_multi.py  5000  threaded2 50  15 > "../logs/send_multi.py.15.log" &
+./send_multi.py  5000  threaded2 50  16 > "../logs/send_multi.py.16.log" &
+./send_multi.py  5000  threaded2 50  17 > "../logs/send_multi.py.17.log" &
+./send_multi.py  5000  threaded2 50  18 > "../logs/send_multi.py.18.log" &
+./send_multi.py  5000  threaded2 50  19 > "../logs/send_multi.py.19.log" &
+./send_multi.py  5000  threaded2 50  20 > "../logs/send_multi.py.20.log" &
+./send_multi.py  5000  threaded2 50  21 > "../logs/send_multi.py.21.log" &
+./send_multi.py  5000  threaded2 50  22 > "../logs/send_multi.py.22.log" &
+./send_multi.py  5000  threaded2 50  23 > "../logs/send_multi.py.23.log" &
+./send_multi.py  5000  threaded2 50  24 > "../logs/send_multi.py.24.log" &
+./send_multi.py  5000  threaded2 50  25 > "../logs/send_multi.py.25.log" &
+./send_multi.py  5000  threaded2 50  26 > "../logs/send_multi.py.26.log" &
+./send_multi.py  5000  threaded2 50  27 > "../logs/send_multi.py.27.log" &
+./send_multi.py  5000  threaded2 50  28 > "../logs/send_multi.py.28.log" &
+./send_multi.py  5000  threaded2 50  29 > "../logs/send_multi.py.29.log" &
+./send_multi.py  5000  threaded2 50  30 > "../logs/send_multi.py.30.log" &
+./send_multi.py  5000  threaded2 50  31 > "../logs/send_multi.py.31.log" &
+./send_multi.py  5000  threaded2 50  32 > "../logs/send_multi.py.32.log" &
+./send_multi.py  5000  threaded2 50  33 > "../logs/send_multi.py.33.log" &
+./send_multi.py  5000  threaded2 50  34 > "../logs/send_multi.py.34.log" &
+./send_multi.py  5000  threaded2 50  35 > "../logs/send_multi.py.35.log" &
+./send_multi.py  5000  threaded2 50  36 > "../logs/send_multi.py.36.log" &
+./send_multi.py  5000  threaded2 50  37 > "../logs/send_multi.py.37.log" &
+./send_multi.py  5000  threaded2 50  38 > "../logs/send_multi.py.38.log" &
+./send_multi.py  5000  threaded2 50  39 > "../logs/send_multi.py.39.log" &
+./send_multi.py  5000  threaded2 50  40 > "../logs/send_multi.py.40.log" &
+./send_multi.py  5000  threaded2 50  41 > "../logs/send_multi.py.41.log" &
+./send_multi.py  5000  threaded2 50  42 > "../logs/send_multi.py.42.log" &
+./send_multi.py  5000  threaded2 50  43 > "../logs/send_multi.py.43.log" &
+./send_multi.py  5000  threaded2 50  44 > "../logs/send_multi.py.44.log" &
+./send_multi.py  5000  threaded2 50  45 > "../logs/send_multi.py.45.log" &
+./send_multi.py  5000  threaded2 50  46 > "../logs/send_multi.py.46.log" &
+./send_multi.py  5000  threaded2 50  47 > "../logs/send_multi.py.47.log" &
+./send_multi.py  5000  threaded2 50  48 > "../logs/send_multi.py.48.log" &
+./send_multi.py  5000  threaded2 50  49 > "../logs/send_multi.py.49.log" &
+./send_multi.py  5000  threaded2 50  50 > "../logs/send_multi.py.50.log" &
+./send_multi.py  5000  threaded2 50  51 > "../logs/send_multi.py.51.log" &
+./send_multi.py  5000  threaded2 50  52 > "../logs/send_multi.py.52.log" &
+./send_multi.py  5000  threaded2 50  53 > "../logs/send_multi.py.53.log" &
+./send_multi.py  5000  threaded2 50  54 > "../logs/send_multi.py.54.log" &
+./send_multi.py  5000  threaded2 50  55 > "../logs/send_multi.py.55.log" &
+./send_multi.py  5000  threaded2 50  56 > "../logs/send_multi.py.56.log" &
+./send_multi.py  5000  threaded2 50  57 > "../logs/send_multi.py.57.log" &
+./send_multi.py  5000  threaded2 50  58 > "../logs/send_multi.py.58.log" &
+./send_multi.py  5000  threaded2 50  59 > "../logs/send_multi.py.59.log" &
+
+./send_multi.py 2 threaded2 1 0 
+
+
+
+./send_multi.py  500  threaded2 50 0 > "../logs/send_multi.py.log" &
+./send_multi.py  500  threaded2 50  1 > "../logs/send_multi.py.1.log" &
+./send_multi.py  500  threaded2 50  2

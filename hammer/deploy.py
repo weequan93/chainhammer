@@ -17,6 +17,7 @@ import sys, time, json
 from pprint import pprint
 from web3.utils.encoding import pad_hex
 
+
 import requests # pip3 install requests
 
 try:
@@ -72,7 +73,7 @@ def deployContract(contract_interface, ifPrint=True, timeout=TIMEOUT_DEPLOY):
     transaction = {
         'from':   PRIVATE_KEY_ADDRESS,
         'nonce': w3.eth.getTransactionCount(PRIVATE_KEY_ADDRESS),
-        'gasPrice': 20000000000
+        'gasPrice': 30000000000
     }
 
     construct_txn = myContract.constructor().buildTransaction(transaction)
@@ -88,12 +89,12 @@ def deployContract(contract_interface, ifPrint=True, timeout=TIMEOUT_DEPLOY):
     contractAddress = tx_receipt["contractAddress"]
     if ifPrint:
         line = "Deployed. gasUsed={gasUsed} contractAddress={contractAddress}"
-        print ( line.format(**tx_receipt) )
-
+        print ( line.format(**tx_receipt) )  
+    
     # add gasless deriw
     method_ID = "0x08755606"
     # arg_hex = w3.toHex(contractAddress.encode('utf-8'))
-    # arg_hex_padded = pad_hex ( arg_hex, bit_size=256)
+    #  arg_hex_padded = pad_hex ( arg_hex, bit_size=256)
     data = method_ID +"000000000000000000000000"+ contractAddress [2:]
 
     txParameters = {'from': PRIVATE_KEY_ADDRESS, 
@@ -203,6 +204,4 @@ if __name__ == '__main__':
         contractAddress, abi = loadFromDisk()
         myContract = contractObject(contractAddress, abi)
         trySmartContractMethods(myContract)
-    
-    
     
