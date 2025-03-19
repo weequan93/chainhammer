@@ -158,7 +158,7 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
     txParameters = {'from': w3.toChecksumAddress(address), 
                     'to' : w3.toChecksumAddress("0xa1698F44D70632BfE448804378DA373C55eE8476"),
                     'nonce': nounce,
-                    'gasPrice': 1000000000,
+                    'gasPrice': 2000000000,
                     'value': "0x1",
                     'gas' : w3.toHex(GAS_FOR_SET_CALL),
                     'data' : data} 
