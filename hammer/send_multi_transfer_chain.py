@@ -177,6 +177,7 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
     tx  = None
 
     print (".", end=" ") # TODO: not print this here but at start
+    print(response.json())
     try:
         tx = response.json()['result']
 
