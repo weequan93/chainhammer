@@ -264,365 +264,27 @@ Thanks.
 
 ./send_multi_transfer_erc20.py  100  threaded2 10  2
 
-## 
+##  test with docker
 
-./tps.py &
-./deploy.py &
-./send_multi_high_gas.py  5000  threaded2 100 0 > "../logs/send_multi_high_gas.py.log" &
-./send_multi_high_gas.py  5000  threaded2 100  1 > "../logs/send_multi_high_gas.py.1.log" &
-./send_multi_high_gas.py  5000  threaded2 100  2 > "../logs/send_multi_high_gas.py.2.log" &
-./send_multi_high_gas.py  5000  threaded2 100  3 > "../logs/send_multi_high_gas.py.3.log" &
-./send_multi_high_gas.py  5000  threaded2 100  4 > "../logs/send_multi_high_gas.py.4.log" &
-./send_multi_high_gas.py  5000  threaded2 100  5 > "../logs/send_multi_high_gas.py.5.log" &
-./send_multi_high_gas.py  5000  threaded2 100  6 > "../logs/send_multi_high_gas.py.6.log" &
-./send_multi_high_gas.py  5000  threaded2 100  7 > "../logs/send_multi_high_gas.py.7.log" &
-./send_multi_high_gas.py  5000  threaded2 100  8 > "../logs/send_multi_high_gas.py.8.log" &
-./send_multi_high_gas.py  5000  threaded2 100  9 > "../logs/send_multi_high_gas.py.9.log" &
-./send_multi_high_gas.py  5000  threaded2 100  10 > "../logs/send_multi_high_gas.py.10.log" &
-./send_multi_high_gas.py  5000  threaded2 100  11 > "../logs/send_multi_high_gas.py.11.log" &
-./send_multi_high_gas.py  5000  threaded2 100  12 > "../logs/send_multi_high_gas.py.12.log" &
-./send_multi_high_gas.py  5000  threaded2 100  13 > "../logs/send_multi_high_gas.py.13.log" &
-./send_multi_high_gas.py  5000  threaded2 100  14 > "../logs/send_multi_high_gas.py.14.log" &
-./send_multi_high_gas.py  5000  threaded2 100  15 > "../logs/send_multi_high_gas.py.15.log" &
-./send_multi_high_gas.py  5000  threaded2 100  16 > "../logs/send_multi_high_gas.py.16.log" &
-./send_multi_high_gas.py  5000  threaded2 100  17 > "../logs/send_multi_high_gas.py.17.log" &
-./send_multi_high_gas.py  5000  threaded2 100  18 > "../logs/send_multi_high_gas.py.18.log" &
-./send_multi_high_gas.py  5000  threaded2 100  19 > "../logs/send_multi_high_gas.py.19.log" &
-./send_multi_high_gas.py  5000  threaded2 100  20 > "../logs/send_multi_high_gas.py.20.log" &
-./send_multi_high_gas.py  5000  threaded2 100  21 > "../logs/send_multi_high_gas.py.21.log" &
-./send_multi_high_gas.py  5000  threaded2 100  22 > "../logs/send_multi_high_gas.py.22.log" &
-./send_multi_high_gas.py  5000  threaded2 100  23 > "../logs/send_multi_high_gas.py.23.log" &
-./send_multi_high_gas.py  5000  threaded2 100  24 > "../logs/send_multi_high_gas.py.24.log" &
-./send_multi_high_gas.py  5000  threaded2 100  25 > "../logs/send_multi_high_gas.py.25.log" &
-./send_multi_high_gas.py  5000  threaded2 100  26 > "../logs/send_multi_high_gas.py.26.log" &
-./send_multi_high_gas.py  5000  threaded2 100  27 > "../logs/send_multi_high_gas.py.27.log" &
-./send_multi_high_gas.py  5000  threaded2 100  28 > "../logs/send_multi_high_gas.py.28.log" &
-./send_multi_high_gas.py  5000  threaded2 100  29 > "../logs/send_multi_high_gas.py.29.log" &
-./send_multi_high_gas.py  5000  threaded2 100  30 > "../logs/send_multi_high_gas.py.30.log" &
-./send_multi_high_gas.py  5000  threaded2 100  31 > "../logs/send_multi_high_gas.py.31.log" &
-./send_multi_high_gas.py  5000  threaded2 100  32 > "../logs/send_multi_high_gas.py.32.log" &
-./send_multi_high_gas.py  5000  threaded2 100  33 > "../logs/send_multi_high_gas.py.33.log" &
-./send_multi_high_gas.py  5000  threaded2 100  34 > "../logs/send_multi_high_gas.py.34.log" &
-./send_multi_high_gas.py  5000  threaded2 100  35 > "../logs/send_multi_high_gas.py.35.log" &
-./send_multi_high_gas.py  5000  threaded2 100  36 > "../logs/send_multi_high_gas.py.36.log" &
-./send_multi_high_gas.py  5000  threaded2 100  37 > "../logs/send_multi_high_gas.py.37.log" &
-./send_multi_high_gas.py  5000  threaded2 100  38 > "../logs/send_multi_high_gas.py.38.log" &
-./send_multi_high_gas.py  5000  threaded2 100  39 > "../logs/send_multi_high_gas.py.39.log" &
-./send_multi_high_gas.py  5000  threaded2 100  40 > "../logs/send_multi_high_gas.py.40.log" &
-./send_multi_high_gas.py  5000  threaded2 100  41 > "../logs/send_multi_high_gas.py.41.log" &
-./send_multi_high_gas.py  5000  threaded2 100  42 > "../logs/send_multi_high_gas.py.42.log" &
-./send_multi_high_gas.py  5000  threaded2 100  43 > "../logs/send_multi_high_gas.py.43.log" &
-./send_multi_high_gas.py  5000  threaded2 100  44 > "../logs/send_multi_high_gas.py.44.log" &
-./send_multi_high_gas.py  5000  threaded2 100  45 > "../logs/send_multi_high_gas.py.45.log" &
-./send_multi_high_gas.py  5000  threaded2 100  46 > "../logs/send_multi_high_gas.py.46.log" &
-./send_multi_high_gas.py  5000  threaded2 100  47 > "../logs/send_multi_high_gas.py.47.log" &
-./send_multi_high_gas.py  5000  threaded2 100  48 > "../logs/send_multi_high_gas.py.48.log" &
-./send_multi_high_gas.py  5000  threaded2 100  49 > "../logs/send_multi_high_gas.py.49.log" &
-./send_multi_high_gas.py  5000  threaded2 100  50 > "../logs/send_multi_high_gas.py.50.log" &
-./send_multi_high_gas.py  5000  threaded2 50  51 > "../logs/send_multi_high_gas.py.51.log" &
-./send_multi_high_gas.py  5000  threaded2 50  52 > "../logs/send_multi_high_gas.py.52.log" &
-./send_multi_high_gas.py  5000  threaded2 50  53 > "../logs/send_multi_high_gas.py.53.log" &
-./send_multi_high_gas.py  5000  threaded2 50  54 > "../logs/send_multi_high_gas.py.54.log" &
-./send_multi_high_gas.py  5000  threaded2 50  55 > "../logs/send_multi_high_gas.py.55.log" &
-./send_multi_high_gas.py  5000  threaded2 50  56 > "../logs/send_multi_high_gas.py.56.log" &
-./send_multi_high_gas.py  5000  threaded2 50  57 > "../logs/send_multi_high_gas.py.57.log" &
-./send_multi_high_gas.py  5000  threaded2 50  58 > "../logs/send_multi_high_gas.py.58.log" &
-./send_multi_high_gas.py  5000  threaded2 50  59 > "../logs/send_multi_high_gas.py.59.log" &
-
-
-./send_multi_transfer_erc20.py  5000  threaded2 50  0 > "../logs/send_multi_transfer_erc20.py.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  1 > "../logs/send_multi_transfer_erc20.py.1.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  2 > "../logs/send_multi_transfer_erc20.py.2.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  3 > "../logs/send_multi_transfer_erc20.py.3.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  4 > "../logs/send_multi_transfer_erc20.py.4.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  5 > "../logs/send_multi_transfer_erc20.py.5.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  6 > "../logs/send_multi_transfer_erc20.py.6.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  7 > "../logs/send_multi_transfer_erc20.py.7.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  8 > "../logs/send_multi_transfer_erc20.py.8.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  9 > "../logs/send_multi_transfer_erc20.py.9.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  10 > "../logs/send_multi_transfer_erc20.py.10.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  11 > "../logs/send_multi_transfer_erc20.py.11.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  12 > "../logs/send_multi_transfer_erc20.py.12.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  13 > "../logs/send_multi_transfer_erc20.py.13.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  14 > "../logs/send_multi_transfer_erc20.py.14.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  15 > "../logs/send_multi_transfer_erc20.py.15.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  16 > "../logs/send_multi_transfer_erc20.py.16.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  17 > "../logs/send_multi_transfer_erc20.py.17.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  18 > "../logs/send_multi_transfer_erc20.py.18.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  19 > "../logs/send_multi_transfer_erc20.py.19.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  20 > "../logs/send_multi_transfer_erc20.py.20.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  21 > "../logs/send_multi_transfer_erc20.py.21.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  22 > "../logs/send_multi_transfer_erc20.py.22.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  23 > "../logs/send_multi_transfer_erc20.py.23.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  24 > "../logs/send_multi_transfer_erc20.py.24.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  25 > "../logs/send_multi_transfer_erc20.py.25.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  26 > "../logs/send_multi_transfer_erc20.py.26.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  27 > "../logs/send_multi_transfer_erc20.py.27.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  28 > "../logs/send_multi_transfer_erc20.py.28.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  29 > "../logs/send_multi_transfer_erc20.py.29.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  30 > "../logs/send_multi_transfer_erc20.py.30.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  31 > "../logs/send_multi_transfer_erc20.py.31.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  32 > "../logs/send_multi_transfer_erc20.py.32.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  33 > "../logs/send_multi_transfer_erc20.py.33.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  34 > "../logs/send_multi_transfer_erc20.py.34.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  35 > "../logs/send_multi_transfer_erc20.py.35.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  36 > "../logs/send_multi_transfer_erc20.py.36.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  37 > "../logs/send_multi_transfer_erc20.py.37.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  38 > "../logs/send_multi_transfer_erc20.py.38.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  39 > "../logs/send_multi_transfer_erc20.py.39.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  40 > "../logs/send_multi_transfer_erc20.py.40.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  41 > "../logs/send_multi_transfer_erc20.py.41.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  42 > "../logs/send_multi_transfer_erc20.py.42.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  43 > "../logs/send_multi_transfer_erc20.py.43.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  44 > "../logs/send_multi_transfer_erc20.py.44.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  45 > "../logs/send_multi_transfer_erc20.py.45.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  46 > "../logs/send_multi_transfer_erc20.py.46.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  47 > "../logs/send_multi_transfer_erc20.py.47.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  48 > "../logs/send_multi_transfer_erc20.py.48.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  49 > "../logs/send_multi_transfer_erc20.py.49.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  50 > "../logs/send_multi_transfer_erc20.py.50.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  51 > "../logs/send_multi_transfer_erc20.py.51.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  52 > "../logs/send_multi_transfer_erc20.py.52.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  53 > "../logs/send_multi_transfer_erc20.py.53.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  54 > "../logs/send_multi_transfer_erc20.py.54.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  55 > "../logs/send_multi_transfer_erc20.py.55.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  56 > "../logs/send_multi_transfer_erc20.py.56.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  57 > "../logs/send_multi_transfer_erc20.py.57.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  58 > "../logs/send_multi_transfer_erc20.py.58.log" &
-./send_multi_transfer_erc20.py  5000  threaded2 50  59 > "../logs/send_multi_transfer_erc20.py.59.log" &
-
-
-
-./send_multi_transfer_chain.py  5000  threaded2 50  0 > "../logs/send_multi_transfer_chain.py.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  1 > "../logs/send_multi_transfer_chain.py.1.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  2 > "../logs/send_multi_transfer_chain.py.2.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  3 > "../logs/send_multi_transfer_chain.py.3.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  4 > "../logs/send_multi_transfer_chain.py.4.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  5 > "../logs/send_multi_transfer_chain.py.5.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  6 > "../logs/send_multi_transfer_chain.py.6.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  7 > "../logs/send_multi_transfer_chain.py.7.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  8 > "../logs/send_multi_transfer_chain.py.8.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  9 > "../logs/send_multi_transfer_chain.py.9.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  10 > "../logs/send_multi_transfer_chain.py.10.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  11 > "../logs/send_multi_transfer_chain.py.11.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  12 > "../logs/send_multi_transfer_chain.py.12.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  13 > "../logs/send_multi_transfer_chain.py.13.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  14 > "../logs/send_multi_transfer_chain.py.14.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  15 > "../logs/send_multi_transfer_chain.py.15.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  16 > "../logs/send_multi_transfer_chain.py.16.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  17 > "../logs/send_multi_transfer_chain.py.17.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  18 > "../logs/send_multi_transfer_chain.py.18.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  19 > "../logs/send_multi_transfer_chain.py.19.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  20 > "../logs/send_multi_transfer_chain.py.20.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  21 > "../logs/send_multi_transfer_chain.py.21.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  22 > "../logs/send_multi_transfer_chain.py.22.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  23 > "../logs/send_multi_transfer_chain.py.23.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  24 > "../logs/send_multi_transfer_chain.py.24.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  25 > "../logs/send_multi_transfer_chain.py.25.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  26 > "../logs/send_multi_transfer_chain.py.26.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  27 > "../logs/send_multi_transfer_chain.py.27.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  28 > "../logs/send_multi_transfer_chain.py.28.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  29 > "../logs/send_multi_transfer_chain.py.29.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  30 > "../logs/send_multi_transfer_chain.py.30.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  31 > "../logs/send_multi_transfer_chain.py.31.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  32 > "../logs/send_multi_transfer_chain.py.32.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  33 > "../logs/send_multi_transfer_chain.py.33.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  34 > "../logs/send_multi_transfer_chain.py.34.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  35 > "../logs/send_multi_transfer_chain.py.35.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  36 > "../logs/send_multi_transfer_chain.py.36.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  37 > "../logs/send_multi_transfer_chain.py.37.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  38 > "../logs/send_multi_transfer_chain.py.38.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  39 > "../logs/send_multi_transfer_chain.py.39.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  40 > "../logs/send_multi_transfer_chain.py.40.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  41 > "../logs/send_multi_transfer_chain.py.41.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  42 > "../logs/send_multi_transfer_chain.py.42.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  43 > "../logs/send_multi_transfer_chain.py.43.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  44 > "../logs/send_multi_transfer_chain.py.44.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  45 > "../logs/send_multi_transfer_chain.py.45.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  46 > "../logs/send_multi_transfer_chain.py.46.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  47 > "../logs/send_multi_transfer_chain.py.47.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  48 > "../logs/send_multi_transfer_chain.py.48.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  49 > "../logs/send_multi_transfer_chain.py.49.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  50 > "../logs/send_multi_transfer_chain.py.50.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  51 > "../logs/send_multi_transfer_chain.py.51.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  52 > "../logs/send_multi_transfer_chain.py.52.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  53 > "../logs/send_multi_transfer_chain.py.53.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  54 > "../logs/send_multi_transfer_chain.py.54.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  55 > "../logs/send_multi_transfer_chain.py.55.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  56 > "../logs/send_multi_transfer_chain.py.56.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  57 > "../logs/send_multi_transfer_chain.py.57.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  58 > "../logs/send_multi_transfer_chain.py.58.log" &
-./send_multi_transfer_chain.py  5000  threaded2 50  59 > "../logs/send_multi_transfer_chain.py.59.log" &
-
-
-
-// 
-
-docker build . --tag quanquanah/chainhammer:mac
-docker buildx build --platform linux/amd64 . --tag quanquanah/chainhammer:linux
-
-
-RPC=http
-PRIVATE_KEY_ADDRESS=0x
-PRIVATE_KEY=0x
-KEY_PER_WORKER=200
-GAS_LIMIT=3500000
-
-
-
-0xe9aDfB912642A75068a297849eC0D040C0B1d0BF
-
-docker run --rm -it -e RPC="https://rpc.deriw.com" -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" -e KEY_PER_WORKER=200 -e GAS_LIMIT=3500000 quanquanah/chainhammer:mac
-CONTRACT_ADDRESS=0x29C70BA9672498C2DF296e5FeD89564CbED2df5f
-//erc20 0x35b3ac4003e1AfeE7601C190DB4f039fCb1BbcB5
-
-
- docker run --rm -it \
-  --entrypoint python \
-  -e RPC="https://rpc.deriw.com" \
-  -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-  -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-  -e KEY_PER_WORKER=200 \
-  -e GAS_LIMIT=3500000 \
-  quanquanah/chainhammer:mac \
-  ./deploy.py
-
-
- docker run --rm -it \
-  --entrypoint python \
-  -e RPC="http://172.16.35.43:8449" \
-  -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-  -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-  -e KEY_PER_WORKER=200 \
-  -e GAS_LIMIT=3500000 \
-  quanquanah/chainhammer:linux \
-  ./tps.py
-
-
-
-
-
-for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
-  docker run --rm -d \
-    --name chainhammer$i \
-    --entrypoint python \
-    -e RPC="http://172.16.35.43:8449" \
-    -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-    -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-    -e KEY_PER_WORKER=400 \
-    -e GAS_LIMIT=1100000 \
-    -e CONTRACT_ADDRESS=0x29C70BA9672498C2DF296e5FeD89564CbED2df5f \
-    -v "$(pwd)/../logs:/app/logs" \
-    quanquanah/chainhammer:linux \
-    ./send_multi_high_gas.py 5000 threaded2 100 $i
-done
-
-
-for i in 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40; do
-  docker run --rm -d \
-    --name chainhammer$i \
-    --entrypoint python \
-    -e RPC="http://172.16.35.43:8449" \
-    -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-    -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-    -e KEY_PER_WORKER=400 \
-    -e GAS_LIMIT=1100000 \
-    -e CONTRACT_ADDRESS=0x29C70BA9672498C2DF296e5FeD89564CbED2df5f \
-    -v "$(pwd)/../logs:/app/logs" \
-    quanquanah/chainhammer:linux \
-    ./send_multi_high_gas.py 5000 threaded2 100 $i
-done
-
-for i in 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60; do
-  docker run --rm -d \
-    --name chainhammer$i \
-    --entrypoint python \
-    -e RPC="http://172.16.35.43:8449" \
-    -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-    -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-    -e KEY_PER_WORKER=400 \
-    -e GAS_LIMIT=1100000 \
-    -e CONTRACT_ADDRESS=0x29C70BA9672498C2DF296e5FeD89564CbED2df5f \
-    -v "$(pwd)/../logs:/app/logs" \
-    quanquanah/chainhammer:linux \
-    ./send_multi_high_gas.py 5000 threaded2 100 $i
-done
-
-
-
-
-
-
-
-
-
-for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
-  docker run --rm -d \
-    --name chainhammer$i \
-    --entrypoint python \
-    -e RPC="http://172.16.35.43:8449" \
-    -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-    -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-    -e KEY_PER_WORKER=400 \
-    -e GAS_LIMIT=1100000 \
-    -e CONTRACT_ADDRESS=0xe9aDfB912642A75068a297849eC0D040C0B1d0BF \
-    -v "$(pwd)/../logs:/app/logs" \
-    quanquanah/chainhammer:linux \
-    ./send_multi_transfer_erc20.py 5000 threaded2 200 $i
-done
-
-for i in 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40; do
-  docker run --rm -d \
-    --name chainhammer$i \
-    --entrypoint python \
-    -e RPC="http://172.16.35.43:8449" \
-    -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-    -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-    -e KEY_PER_WORKER=400 \
-    -e GAS_LIMIT=1100000 \
-    -e CONTRACT_ADDRESS=0xe9aDfB912642A75068a297849eC0D040C0B1d0BF \
-    -v "$(pwd)/../logs:/app/logs" \
-    quanquanah/chainhammer:linux \
-    ./send_multi_transfer_erc20.py 5000 threaded2 200 $i
-done
-
-
-for i in 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60; do
-  docker run --rm -d \
-    --name chainhammer$i \
-    --entrypoint python \
-    -e RPC="http://172.16.35.43:8449" \
-    -e PRIVATE_KEY_ADDRESS="0x94A6713cbF5F589aB51570D0b4cd219792421af2" \
-    -e PRIVATE_KEY="0x3f924b934c41a048183b48835acdb533b1d07045a38394b006b238a3fc07ea89" \
-    -e KEY_PER_WORKER=400 \
-    -e GAS_LIMIT=1100000 \
-    -e CONTRACT_ADDRESS=0xe9aDfB912642A75068a297849eC0D040C0B1d0BF \
-    -v "$(pwd)/../logs:/app/logs" \
-    quanquanah/chainhammer:linux \
-    ./send_multi_transfer_erc20.py 5000 threaded2 200 $i
-done
-
-
-
-
-
-
-
+### generate account
 
   docker run --rm -it --entrypoint python \
     -v "$PWD/hammer:/app/hammer" \
     quanquanah/chainhammer:linux \
-    ./generate_accounts.py 20000 --force
+    ./generate_accounts.py 100000 --force
 
-    docker run --rm -it --entrypoint python \
+### fund account
+
+ docker run --rm -it --entrypoint python \
     -v "$PWD/hammer:/app/hammer" \
     -e RPC="https://rpc.dev.deriw.com" \
     -e PRIVATE_KEY_ADDRESS="" \
     -e PRIVATE_KEY="" \
     -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
     quanquanah/chainhammer:linux \
-    ./fund_accounts.py --count 20000 --amount-ether 1 --chain-id auto --wait --gas-limit 50000
+    ./fund_accounts.py --start 0 --count 100000 --amount-ether 1 --chain-id auto --wait --gas-limit 50000
 
+### listen block
 
   docker run --rm -it --entrypoint python \
     -v "$PWD/hammer:/app/hammer" \
@@ -631,7 +293,7 @@ done
     quanquanah/chainhammer:linux \
     ./tps.py
 
-
+## send chain token 
   docker run --rm -it --entrypoint python \
     -v "$PWD/hammer:/app/hammer" \
     -e RPC="http://43.134.170.92:1100" \
@@ -645,15 +307,55 @@ done
     quanquanah/chainhammer:linux \
     ./send_multi_transfer_chain.py 10000 threaded2 100 0
 
-    docker run --rm -it --entrypoint python \
+    or 
+
+    for i in $(seq 0 32); do
+    docker run -d \
+      --name chainhammer-$i \
+      --entrypoint python \
+      -v "$PWD/hammer:/app/hammer" \
+      -e RPC="http://10.0.2.11:1100" \
+      -e PRIVATE_KEY_ADDRESS="0x57F93d0dFa75206f61F2BcD41Cb61c499d48Fe17" \
+      -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
+      -e KEY_PER_WORKER=5000 \
+      -e TRANSFER_TO_ADDRESS="0x57F93d0dFa75206f61F2BcD41Cb61c499d48Fe17" \
+      -e TRANSFER_GAS_LIMIT=50000 \
+      -e TRANSFER_GAS_PRICE_WEI=5000000000 \
+      -e TRANSFER_VALUE_WEI=1 \
+      -e CONTRACT_ADDRESS="0x0000000000000000000000000000000000000000" \
+      quanquanah/chainhammer:linux \
+      ./send_multi_transfer_chain.py 300000 threaded2 2500 $i
+  done
+
+## deploy contract 
+
+modify gas at hammer/contract.sol
+docker run --rm -it --entrypoint python \
     -v "$PWD/hammer:/app/hammer" \
-    -e RPC="http://43.134.170.92:1100" \
-    -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
-    -e KEY_PER_WORKER=100 \
-    -e TRANSFER_TO_ADDRESS="0x57F93d0dFa75206f61F2BcD41Cb61c499d48Fe17" \
-    -e TRANSFER_VALUE_WEI=1 \
-    -e TRANSFER_GAS_LIMIT=50000 \
-    -e TRANSFER_GAS_PRICE_WEI=1000000000 \
-    -e CONTRACT_ADDRESS="0x0000000000000000000000000000000000000000" \
+    -e RPC="http://10.0.2.11:1100" \
+    -e PRIVATE_KEY_ADDRESS="" \
+    -e PRIVATE_KEY="" \
     quanquanah/chainhammer:linux \
-    ./send_multi_transfer_chain.py 10000 threaded2 100 1
+    ./deploy.py
+
+## add gasless
+cast send \
+    --rpc-url https://rpc.dev.deriw.com \
+    --private-key 0x \
+    0x00000000000000000000000000000000000007e8 \
+    "addPricerTxTo(address)" \
+    0xc91AF0FB1AA160190c4B48604a955aC84AcC1a7f
+
+## test custom gas
+
+docker run --rm -it --entrypoint python \
+    -v "$PWD/hammer:/app/hammer" \
+    -e RPC="http://10.0.2.11:1100" \
+    -e PRIVATE_KEY_ADDRESS="0x57F93d0dFa75206f61F2BcD41Cb61c499d48Fe17" \
+    -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
+    -e KEY_PER_WORKER=1000 \
+    -e CONTRACT_ADDRESS="0xdd0f9669CD68980F4fB12d2eaFA657C089F135bA" \
+    -e GAS_LIMIT=3500000 \
+    -e GAS_PRICE_WEI=10000000000 \
+    quanquanah/chainhammer:linux \
+    ./send_multi_high_gas.py 10000 threaded2 500 0
