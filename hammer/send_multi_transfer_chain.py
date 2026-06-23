@@ -749,7 +749,7 @@ if __name__ == '__main__':
     # try_contract_set_via_web3(contract); exit()
     # try_contract_set_via_RPC(contract);  exit()
 
-    contract = initialize_fromAddress()
+    contract = None if ROUTE == "RPC" else initialize_fromAddress()
 
     txs = sendmany(contract)
     sys.stdout.flush() # so that the log files are updated.
