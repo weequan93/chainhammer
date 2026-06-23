@@ -38,7 +38,11 @@ from hammer.config import GAS_FOR_SET_CALL
 from hammer.config import FILE_LAST_EXPERIMENT, EMPTY_BLOCKS_AT_END,KEY_PER_WORKER
 from hammer.deploy import loadFromDisk
 from hammer.clienttools import web3connection, unlockAccount
-from hammer.ppk import ADDRESS_LIST
+from hammer.accounts import load_address_list
+try:
+    from hammer.ppk import ADDRESS_LIST as DEFAULT_ADDRESS_LIST
+except ImportError:
+    DEFAULT_ADDRESS_LIST = []
 
 
 ##########################
@@ -158,10 +162,12 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
     NOUNCES[privateIndex] = NOUNCES[privateIndex] + 1
     
 
+    gas_price_wei = int(os.getenv("GAS_PRICE_WEI", os.getenv("TRANSFER_GAS_PRICE_WEI", "100000000")))
+
     txParameters = {'from': w3.toChecksumAddress(address), 
                     'to' : contract.address,
                     'nonce': nounce,
-                    'gasPrice': 100000000,
+                    'gasPrice': gas_price_wei,
                     'gas' : int(os.getenv("GAS_LIMIT",3500000)),
                     # 'gas' : 3500000,
                     # 'gas' : 2200000,
@@ -676,8 +682,11 @@ def sendmany(contract):
     num_core = int(sys.argv[4])
     key_per_worker = int(KEY_PER_WORKER)
     print("check %s for num_core=%s" % (num_core, key_per_worker))
-    print("address length = %d" % len(ADDRESS_LIST))
-    address = ADDRESS_LIST[num_core * key_per_worker * 2 : num_core * key_per_worker * 2 + key_per_worker * 2]
+    address_list = load_address_list(DEFAULT_ADDRESS_LIST)
+    print("address length = %d" % len(address_list))
+    address = address_list[num_core * key_per_worker * 2 : num_core * key_per_worker * 2 + key_per_worker * 2]
+    if len(address) < key_per_worker * 2:
+        raise ValueError("not enough accounts for core %d and KEY_PER_WORKER=%d" % (num_core, key_per_worker))
 
     global NOUNCES
     NOUNCES = [None] * key_per_worker

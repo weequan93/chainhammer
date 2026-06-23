@@ -18,7 +18,7 @@ if __name__ == '__main__' and __package__ is None:
 
 # standard library:
 import os, sys, time, random, json
-from threading import Thread
+from threading import Thread, Lock
 from queue import Queue
 from pprint import pprint
 
@@ -43,6 +43,98 @@ except ImportError:
     DEFAULT_ADDRESS_LIST = []
 
 KEY_PER_WORKER = int(CONFIG_KEY_PER_WORKER)
+RATE_LOG_INTERVAL = float(os.getenv("RATE_LOG_INTERVAL", "1"))
+VERBOSE_TX_LOGS = os.getenv("VERBOSE_TX_LOGS", "0") == "1"
+PRINT_RPC_RESPONSE = os.getenv("PRINT_RPC_RESPONSE", "0") == "1"
+RPC_TIMEOUT_SECONDS = float(os.getenv("RPC_TIMEOUT_SECONDS", "30"))
+
+REQUEST_METRICS = {
+    "total": 0,
+    "attempted": 0,
+    "ok": 0,
+    "error": 0,
+    "inflight": 0,
+    "start_time": 0,
+    "last_time": 0,
+    "last_attempted": 0,
+}
+REQUEST_METRICS_LOCK = Lock()
+
+
+def init_request_metrics(total):
+    now = time.time()
+    with REQUEST_METRICS_LOCK:
+        REQUEST_METRICS["total"] = total
+        REQUEST_METRICS["attempted"] = 0
+        REQUEST_METRICS["ok"] = 0
+        REQUEST_METRICS["error"] = 0
+        REQUEST_METRICS["inflight"] = 0
+        REQUEST_METRICS["start_time"] = now
+        REQUEST_METRICS["last_time"] = now
+        REQUEST_METRICS["last_attempted"] = 0
+
+
+def record_rpc_start():
+    with REQUEST_METRICS_LOCK:
+        REQUEST_METRICS["attempted"] += 1
+        REQUEST_METRICS["inflight"] += 1
+
+
+def record_rpc_result(ok):
+    now = time.time()
+    with REQUEST_METRICS_LOCK:
+        if ok:
+            REQUEST_METRICS["ok"] += 1
+        else:
+            REQUEST_METRICS["error"] += 1
+        REQUEST_METRICS["inflight"] -= 1
+
+        elapsed_since_last = now - REQUEST_METRICS["last_time"]
+        if elapsed_since_last < RATE_LOG_INTERVAL:
+            return
+
+        attempted = REQUEST_METRICS["attempted"]
+        recent = attempted - REQUEST_METRICS["last_attempted"]
+        total_elapsed = max(now - REQUEST_METRICS["start_time"], 0.000001)
+        recent_rate = recent / max(elapsed_since_last, 0.000001)
+        avg_rate = attempted / total_elapsed
+
+        line = (
+            "\nrate attempted=%d/%d ok=%d error=%d inflight=%d "
+            "recent=%.1f req/s avg=%.1f req/s"
+        )
+        print(line % (
+            attempted,
+            REQUEST_METRICS["total"],
+            REQUEST_METRICS["ok"],
+            REQUEST_METRICS["error"],
+            REQUEST_METRICS["inflight"],
+            recent_rate,
+            avg_rate,
+        ))
+        sys.stdout.flush()
+
+        REQUEST_METRICS["last_time"] = now
+        REQUEST_METRICS["last_attempted"] = attempted
+
+
+def print_final_request_metrics():
+    now = time.time()
+    with REQUEST_METRICS_LOCK:
+        attempted = REQUEST_METRICS["attempted"]
+        total_elapsed = max(now - REQUEST_METRICS["start_time"], 0.000001)
+        print(
+            "\nfinal rate attempted=%d/%d ok=%d error=%d avg=%.1f req/s elapsed=%.1fs"
+            % (
+                attempted,
+                REQUEST_METRICS["total"],
+                REQUEST_METRICS["ok"],
+                REQUEST_METRICS["error"],
+                attempted / total_elapsed,
+                total_elapsed,
+            )
+        )
+        sys.stdout.flush()
 
 
 ##########################
@@ -183,21 +275,39 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
                "id"     : 1}
 
     headers = {'Content-type' : 'application/json'}
-    response = requests.post(RPCaddress, json=payload, headers=headers)
+    record_rpc_start()
+    tx = None
+    ok = False
 
-    tx  = None
-
-    print (".", end=" ") # TODO: not print this here but at start
-    print(response.json())
     try:
-        tx = response.json()['result']
+        response = requests.post(
+            RPCaddress,
+            json=payload,
+            headers=headers,
+            timeout=RPC_TIMEOUT_SECONDS,
+        )
+        response_json = response.json()
+        if PRINT_RPC_RESPONSE:
+            print(response_json)
 
-        if not hashes==None:
+        tx = response_json.get('result')
+        ok = tx is not None
+        if ok and hashes is not None:
             hashes.append(tx)
-        return tx
-    except:
-        NOUNCES[privateIndex] =  w3.eth.getTransactionCount( w3.toChecksumAddress( w3.toChecksumAddress(address), ))
-        return tx
+        else:
+            NOUNCES[privateIndex] = w3.eth.getTransactionCount(w3.toChecksumAddress(address))
+            if VERBOSE_TX_LOGS:
+                print("RPC error:", response_json)
+    except Exception as exc:
+        NOUNCES[privateIndex] = w3.eth.getTransactionCount(w3.toChecksumAddress(address))
+        if VERBOSE_TX_LOGS:
+            print("RPC exception:", exc)
+    finally:
+        record_rpc_result(ok)
+
+    if VERBOSE_TX_LOGS:
+        print (".", end=" ")
+    return tx
 
 
         
@@ -302,12 +412,16 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
     def worker():
         while True:
             item = q.get()
-         
-            privateIndex = item  % KEY_PER_WORKER
-         
-            contract_set(contract, item, txs, privateIndex,KEYPRIVATE[privateIndex],KEYADDRESS[privateIndex] )
-            print ("T", end=""); sys.stdout.flush()
-            q.task_done()
+            try:
+                privateIndex = item  % KEY_PER_WORKER
+                contract_set(contract, item, txs, privateIndex,KEYPRIVATE[privateIndex],KEYADDRESS[privateIndex] )
+                if VERBOSE_TX_LOGS:
+                    print ("T", end=""); sys.stdout.flush()
+            except Exception as exc:
+                print("\nworker exception for item %s: %s" % (item, exc))
+                sys.stdout.flush()
+            finally:
+                q.task_done()
 
     for i in range(num_worker_threads):
          t = Thread(target=worker)
@@ -318,7 +432,8 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
 
     for i in range(numTx):
         q.put (i)
-        print ("I", end=""); sys.stdout.flush()
+        if VERBOSE_TX_LOGS:
+            print ("I", end=""); sys.stdout.flush()
     print ("\n%d items queued." % numTx)
 
     q.join()
@@ -670,6 +785,8 @@ def sendmany(contract):
     if ROUTE=="RPC": route = "RPC directly" 
     if ROUTE=="web3": route = "web3 library" 
     print ("You want me to send %d transactions, via route: %s." % (numTransactions, route))
+    print ("RPC request rate log interval: %.1fs" % RATE_LOG_INTERVAL)
+    init_request_metrics(numTransactions)
 
     num_core = int(sys.argv[4])
     address_list = load_address_list(DEFAULT_ADDRESS_LIST)
@@ -725,6 +842,7 @@ def sendmany(contract):
         print ("Nope. Choice '%s'" % sys.argv[2], "not recognized.")
         exit()
 
+    print_final_request_metrics()
         
     print ("%d transaction hashes recorded, examples: %s" % (len(txs), txs[:2]))
     
