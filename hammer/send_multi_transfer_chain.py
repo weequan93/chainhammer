@@ -17,7 +17,7 @@ if __name__ == '__main__' and __package__ is None:
 ## Dependencies:
 
 # standard library:
-import sys, time, random, json
+import os, sys, time, random, json
 from threading import Thread
 from queue import Queue
 from pprint import pprint
@@ -33,10 +33,13 @@ from web3.utils.encoding import pad_hex
 from hammer.config import RPCaddress, ROUTE, PRIVATE_FOR, EXAMPLE_ABI
 from hammer.config import PARITY_UNLOCK_EACH_TRANSACTION
 from hammer.config import GAS_FOR_SET_CALL
-from hammer.config import FILE_LAST_EXPERIMENT, EMPTY_BLOCKS_AT_END,KEY_PER_WORKER
+from hammer.config import FILE_LAST_EXPERIMENT, EMPTY_BLOCKS_AT_END, KEY_PER_WORKER as CONFIG_KEY_PER_WORKER
 from hammer.deploy import loadFromDisk
 from hammer.clienttools import web3connection, unlockAccount
-from hammer.ppk import ADDRESS_LIST
+from hammer.accounts import load_address_list
+from hammer.ppk import ADDRESS_LIST as DEFAULT_ADDRESS_LIST
+
+KEY_PER_WORKER = int(CONFIG_KEY_PER_WORKER)
 
 
 ##########################
@@ -155,12 +158,17 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
     NOUNCES[privateIndex] = NOUNCES[privateIndex] + 1
     
 
-    txParameters = {'from': w3.toChecksumAddress(address), 
-                    'to' : w3.toChecksumAddress("0xa1698F44D70632BfE448804378DA373C55eE8476"),
+    transfer_to = os.getenv("TRANSFER_TO_ADDRESS", "0xa1698F44D70632BfE448804378DA373C55eE8476")
+    transfer_value_wei = int(os.getenv("TRANSFER_VALUE_WEI", "1"))
+    transfer_gas_price_wei = int(os.getenv("TRANSFER_GAS_PRICE_WEI", "20000000000"))
+    transfer_gas_limit = int(os.getenv("TRANSFER_GAS_LIMIT", str(GAS_FOR_SET_CALL)))
+
+    txParameters = {'from': w3.toChecksumAddress(address),
+                    'to' : w3.toChecksumAddress(transfer_to),
                     'nonce': nounce,
-                    'gasPrice': 20000000000,
-                    'value': "0x1",
-                    'gas' : w3.toHex(GAS_FOR_SET_CALL),
+                    'gasPrice': transfer_gas_price_wei,
+                    'value': transfer_value_wei,
+                    'gas' : w3.toHex(transfer_gas_limit),
                     'data' : data} 
     
     signed_txn = w3.eth.account.signTransaction(txParameters, ppk)
@@ -660,10 +668,11 @@ def sendmany(contract):
     if ROUTE=="web3": route = "web3 library" 
     print ("You want me to send %d transactions, via route: %s." % (numTransactions, route))
 
-
-
     num_core = int(sys.argv[4])
-    address = ADDRESS_LIST[num_core*KEY_PER_WORKER*2: num_core*KEY_PER_WORKER*2+KEY_PER_WORKER*2]
+    address_list = load_address_list(DEFAULT_ADDRESS_LIST)
+    address = address_list[num_core*KEY_PER_WORKER*2: num_core*KEY_PER_WORKER*2+KEY_PER_WORKER*2]
+    if len(address) < KEY_PER_WORKER * 2:
+        raise ValueError("not enough accounts for core %d and KEY_PER_WORKER=%d" % (num_core, KEY_PER_WORKER))
 
     global NOUNCES
     NOUNCES = [None] * KEY_PER_WORKER
