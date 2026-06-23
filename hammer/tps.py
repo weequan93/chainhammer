@@ -263,7 +263,7 @@ if __name__ == '__main__':
     blockNumber_before = w3.eth.blockNumber
     print ("\nBlock ",blockNumber_before," - waiting for something to happen") 
     
-    loopUntil_NewContract()
+    # loopUntil_NewContract()
     blocknumber_start_here = w3.eth.blockNumber 
     print ("\nblocknumber_start_here =", blocknumber_start_here)
     

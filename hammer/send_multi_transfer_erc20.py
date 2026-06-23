@@ -21,7 +21,7 @@ import sys, time, random, json
 from threading import Thread
 from queue import Queue
 from pprint import pprint
-
+import os
 # pypi:
 import requests # pip3 install requests
 import web3
@@ -154,16 +154,16 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
     nounce = NOUNCES[privateIndex]
     NOUNCES[privateIndex] = NOUNCES[privateIndex] + 1
     
-
+    print("a")
     txParameters = {'from': w3.toChecksumAddress(address), 
-                    'to' : w3.toChecksumAddress("0x57E8A18D97FCB7014d1aF3331C17C3A469D773ce"),
+                    'to' : os.getenv("CONTRACT_ADDRESS"),
                     'nonce': nounce,
                     'gasPrice': 20000000000,
                     'gas' : w3.toHex(GAS_FOR_SET_CALL),
                     'data' : data} 
     
     signed_txn = w3.eth.account.signTransaction(txParameters, ppk)
-
+    print("b")
     method = 'eth_sendRawTransaction'
     payload= {"jsonrpc" : "2.0",
                "method" : method,
@@ -177,12 +177,14 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
 
     print (".", end=" ") # TODO: not print this here but at start
     try:
+        print(response.json())
         tx = response.json()['result']
-
+        print(tx)
         if not hashes==None:
             hashes.append(tx)
         return tx
-    except:
+    except Exception as e:
+        print("Exception:", e)
         NOUNCES[privateIndex] =  w3.eth.getTransactionCount( w3.toChecksumAddress( w3.toChecksumAddress(address), ))
         return tx
 
@@ -279,6 +281,7 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
 
     line = "send %d transactions, via multi-threading queue with %d workers:\n"
     print (line % (numTx, num_worker_threads))
+    key_per_worker = int(KEY_PER_WORKER)
 
     q = Queue()
     txs = [] # container to keep all transaction hashes
@@ -290,7 +293,7 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
         while True:
             item = q.get()
          
-            privateIndex = item  % KEY_PER_WORKER
+            privateIndex = item  % key_per_worker
          
             contract_set(contract, item, txs, privateIndex,KEYPRIVATE[privateIndex],KEYADDRESS[privateIndex] )
             print ("T", end=""); sys.stdout.flush()
@@ -661,16 +664,17 @@ def sendmany(contract):
 
 
     num_core = int(sys.argv[4])
-    address = ADDRESS_LIST[num_core*KEY_PER_WORKER*2: num_core*KEY_PER_WORKER*2+KEY_PER_WORKER*2]
+    key_per_worker = int(KEY_PER_WORKER)
+    address = ADDRESS_LIST[num_core*key_per_worker*2: num_core*key_per_worker*2+key_per_worker*2]
 
     global NOUNCES
-    NOUNCES = [None] * KEY_PER_WORKER
+    NOUNCES = [None] * key_per_worker
     global KEYADDRESS 
-    KEYADDRESS= [None] * KEY_PER_WORKER
+    KEYADDRESS= [None] * key_per_worker
     global KEYPRIVATE
-    KEYPRIVATE= [None] * KEY_PER_WORKER
+    KEYPRIVATE= [None] * key_per_worker
 
-    for i in range(KEY_PER_WORKER):
+    for i in range(key_per_worker):
         checkSumAddress =  w3.toChecksumAddress(address[i*2])
 
         KEYADDRESS[i] = checkSumAddress

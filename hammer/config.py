@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os
+
 """
 @summary: settings
 
@@ -14,8 +16,8 @@
 
 # better keep the same port :8545 everywhere, and instead
 # patch the docker-compose.yml files, see ../networks/quorum-configure.sh
-RPCaddress='http://11.201.0.110:8449'
-RPCaddress2='http://11.201.0.110:8449'
+RPCaddress=os.getenv("RPC")
+RPCaddress2=os.getenv("RPC")
 
 # use this for unittesting with TestRPCProvider
 # RPCaddress, RPCaddress2 = None, None
@@ -79,7 +81,7 @@ if PARITY_UNLOCK_EACH_TRANSACTION and ROUTE=="RPC":
 # a successful transaction; because difference is used as sign for a FAILED
 # transaction in the case of those clients which do not have a
 # 'transactionReceipt.status' field yet
-GAS_FOR_SET_CALL = 90000
+GAS_FOR_SET_CALL = 40000
 
 # only for Quorum:
 # set this to a list of public keys for privateFor-transactions,
@@ -111,10 +113,10 @@ EMPTY_BLOCKS_AT_END = 10
 # DB file for traversing all blocks
 DBFILE="allblocks.db"
 
-KEY_PER_WORKER = 200
+KEY_PER_WORKER = os.getenv("KEY_PER_WORKER",200)
 
-PRIVATE_KEY_ADDRESS="0x39c6ad93dfb708143322d8bbf4c35734f6480249"
-PRIVATE_KEY=""
+PRIVATE_KEY_ADDRESS=os.getenv("PRIVATE_KEY_ADDRESS")
+PRIVATE_KEY=os.getenv("PRIVATE_KEY")
 
 if __name__ == '__main__':
     print ("Do not run this. Like you just did. Don't.")

@@ -13,6 +13,7 @@
 ################
 ## Dependencies:
 
+import os
 import sys, time, json
 from pprint import pprint
 from web3.utils.encoding import pad_hex
@@ -147,9 +148,9 @@ def loadFromDisk():
     """
     load address & abi from previous run of 'contract_CompileDeploySave'
     """
-    contractAddress = json.load(open(FILE_CONTRACT_ADDRESS, 'r'))
+    contractAddress = os.getenv("CONTRACT_ADDRESS",200) # json.load(open(FILE_CONTRACT_ADDRESS, 'r'))
     abi = json.load(open(FILE_CONTRACT_ABI, 'r'))
-    return contractAddress["address"], abi
+    return contractAddress, abi
 
 
 def contract_CompileDeploySave(contract_source_file):

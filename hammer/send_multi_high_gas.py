@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os
+
 """
 @summary: submit many contract.set(arg) transactions to the example contract
 
@@ -21,7 +23,7 @@ import sys, time, random, json
 from threading import Thread
 from queue import Queue
 from pprint import pprint
-
+from datetime import datetime
 # pypi:
 import requests # pip3 install requests
 import web3
@@ -160,7 +162,7 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
                     'to' : contract.address,
                     'nonce': nounce,
                     'gasPrice': 100000000,
-                    'gas' : 50000000,
+                    'gas' : int(os.getenv("GAS_LIMIT",3500000)),
                     # 'gas' : 3500000,
                     # 'gas' : 2200000,
                     # 'gas' : 1300000,
@@ -176,9 +178,14 @@ def contract_set_via_RPC(contract, arg, hashes = None, privateIndex = 0,ppk = ""
                "id"     : 1}
 
     headers = {'Content-type' : 'application/json'}
+    t1 = datetime.now()
     response = requests.post(RPCaddress, json=payload, headers=headers)
+    t2 = datetime.now()
 
     tx  = None
+    delta = t2 - t1
+    ms = delta.total_seconds() * 1000
+    print(f"Time difference is {ms} milliseconds", end="\n")
     print(response.json())
     print (".", end=" ") # TODO: not print this here but at start
     try:
@@ -284,6 +291,7 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
 
     line = "send %d transactions, via multi-threading queue with %d workers:\n"
     print (line % (numTx, num_worker_threads))
+    key_per_worker = int(KEY_PER_WORKER)
 
     q = Queue()
     txs = [] # container to keep all transaction hashes
@@ -295,7 +303,7 @@ def many_transactions_threaded_Queue(contract, numTx, num_worker_threads=25):
         while True:
             item = q.get()
          
-            privateIndex = item  % KEY_PER_WORKER
+            privateIndex = item  % key_per_worker
          
             contract_set(contract, item, txs, privateIndex,KEYPRIVATE[privateIndex],KEYADDRESS[privateIndex] )
             print ("T", end=""); sys.stdout.flush()
@@ -666,16 +674,19 @@ def sendmany(contract):
 
 
     num_core = int(sys.argv[4])
-    address = ADDRESS_LIST[num_core*KEY_PER_WORKER*2: num_core*KEY_PER_WORKER*2+KEY_PER_WORKER*2]
+    key_per_worker = int(KEY_PER_WORKER)
+    print("check %s for num_core=%s" % (num_core, key_per_worker))
+    print("address length = %d" % len(ADDRESS_LIST))
+    address = ADDRESS_LIST[num_core * key_per_worker * 2 : num_core * key_per_worker * 2 + key_per_worker * 2]
 
     global NOUNCES
-    NOUNCES = [None] * KEY_PER_WORKER
+    NOUNCES = [None] * key_per_worker
     global KEYADDRESS 
-    KEYADDRESS= [None] * KEY_PER_WORKER
+    KEYADDRESS= [None] * key_per_worker
     global KEYPRIVATE
-    KEYPRIVATE= [None] * KEY_PER_WORKER
+    KEYPRIVATE= [None] * key_per_worker
 
-    for i in range(KEY_PER_WORKER):
+    for i in range(key_per_worker):
         checkSumAddress =  w3.toChecksumAddress(address[i*2])
 
         KEYADDRESS[i] = checkSumAddress
