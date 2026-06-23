@@ -605,3 +605,55 @@ done
 
 
 
+
+
+
+
+  docker run --rm -it --entrypoint python \
+    -v "$PWD/hammer:/app/hammer" \
+    quanquanah/chainhammer:linux \
+    ./generate_accounts.py 20000 --force
+
+    docker run --rm -it --entrypoint python \
+    -v "$PWD/hammer:/app/hammer" \
+    -e RPC="https://rpc.dev.deriw.com" \
+    -e PRIVATE_KEY_ADDRESS="" \
+    -e PRIVATE_KEY="" \
+    -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
+    quanquanah/chainhammer:linux \
+    ./fund_accounts.py --count 20000 --amount-ether 1 --chain-id auto --wait --gas-limit 50000
+
+
+  docker run --rm -it --entrypoint python \
+    -v "$PWD/hammer:/app/hammer" \
+    -e RPC="http://43.134.170.92:1100" \
+    -e PRIVATE_KEY_ADDRESS="0x0000000000000000000000000000000000000000" \
+    quanquanah/chainhammer:linux \
+    ./tps.py
+
+
+  docker run --rm -it --entrypoint python \
+    -v "$PWD/hammer:/app/hammer" \
+    -e RPC="http://43.134.170.92:1100" \
+    -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
+    -e KEY_PER_WORKER=100 \
+    -e TRANSFER_TO_ADDRESS="0x57F93d0dFa75206f61F2BcD41Cb61c499d48Fe17" \
+    -e TRANSFER_VALUE_WEI=1 \
+    -e TRANSFER_GAS_LIMIT=50000 \
+    -e TRANSFER_GAS_PRICE_WEI=1000000000 \
+    -e CONTRACT_ADDRESS="0x0000000000000000000000000000000000000000" \
+    quanquanah/chainhammer:linux \
+    ./send_multi_transfer_chain.py 10000 threaded2 100 0
+
+    docker run --rm -it --entrypoint python \
+    -v "$PWD/hammer:/app/hammer" \
+    -e RPC="http://43.134.170.92:1100" \
+    -e ACCOUNTS_FILE="/app/hammer/accounts.json" \
+    -e KEY_PER_WORKER=100 \
+    -e TRANSFER_TO_ADDRESS="0x57F93d0dFa75206f61F2BcD41Cb61c499d48Fe17" \
+    -e TRANSFER_VALUE_WEI=1 \
+    -e TRANSFER_GAS_LIMIT=50000 \
+    -e TRANSFER_GAS_PRICE_WEI=1000000000 \
+    -e CONTRACT_ADDRESS="0x0000000000000000000000000000000000000000" \
+    quanquanah/chainhammer:linux \
+    ./send_multi_transfer_chain.py 10000 threaded2 100 1

@@ -78,6 +78,8 @@ def flatten_accounts(accounts, require_private_key=True):
 def load_address_list(default_address_list, env_var=ACCOUNTS_FILE_ENV):
     filename = os.getenv(env_var)
     if not filename:
+        if not default_address_list:
+            raise ValueError("%s is not set and no default ppk.py account list is available" % env_var)
         return list(default_address_list)
 
     accounts = load_accounts_file(filename, require_private_key=True)

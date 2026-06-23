@@ -37,7 +37,10 @@ from hammer.config import FILE_LAST_EXPERIMENT, EMPTY_BLOCKS_AT_END, KEY_PER_WOR
 from hammer.deploy import loadFromDisk
 from hammer.clienttools import web3connection, unlockAccount
 from hammer.accounts import load_address_list
-from hammer.ppk import ADDRESS_LIST as DEFAULT_ADDRESS_LIST
+try:
+    from hammer.ppk import ADDRESS_LIST as DEFAULT_ADDRESS_LIST
+except ImportError:
+    DEFAULT_ADDRESS_LIST = []
 
 KEY_PER_WORKER = int(CONFIG_KEY_PER_WORKER)
 

@@ -32,8 +32,8 @@ RUN wget -O /usr/local/bin/solc https://github.com/ethereum/solidity/releases/do
     chmod +x /usr/local/bin/solc
 
 
-RUN python -m pip install --upgrade pip setuptools wheel
-RUN python -m pip install --no-cache-dir pycparser cffi pytest-runner==2.7
+RUN python -m pip install --upgrade pip wheel setuptools==65.7.0
+RUN python -m pip install --no-cache-dir setuptools==65.7.0 pycparser cffi pytest-runner==2.7
 
 # Copy the requirements file into the container
 COPY requirements.txt .
@@ -48,6 +48,5 @@ WORKDIR /app/hammer
 
 # Command to run the application
 CMD ["python", "/app/hammer/tps.py"]
-
 
 
